@@ -31,7 +31,7 @@
 ```
 
 2. Insert at least one document with a new field
-    - Example: add "hobbies": ["Cricket", "Music"] or "email": "ravi@example.com"
+    - Example: add "hobbies": ["Cricket", "Music"] or "email": "sonam@example.com"
 
 3. Explore Data in Compass
 
