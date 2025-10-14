@@ -22,6 +22,7 @@ Perform basic CRUD (Create, Read, Update, Delete) operations in MongoDB using a 
 - Display all students.
 - Display students who scored more than 80 marks.
 - Display details of a student by name.
+- Display only the student name and marks in output.
 
 ### Update Operations
 - Update marks of a specific student.
@@ -31,9 +32,8 @@ Perform basic CRUD (Create, Read, Update, Delete) operations in MongoDB using a 
 - Delete one student record.
 - Delete all students having marks less than 80.
 
-### Filter Data
+### Filter Data (BONUS Task : Extra)
 - Find the top 2 students by marks.
-- Display only the student name and marks in output.
 
 ---
 
