@@ -40,8 +40,6 @@
 
 ### Submission
 
-- Take screenshots of:
-- The database and collection list in Compass
-- The inserted documents
-
+- Take screenshots of: The database and collection list in Compass
+- The inserted documents: with query execution
 - Submit screenshots (in PDF or ZIP) with the filename: YourName_MongoDB_Assignment1.pdf
