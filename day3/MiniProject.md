@@ -209,3 +209,106 @@ db.movies.insertMany([
   }
 ])
 ```
+
+## Simple Query Execution
+
+```bash
+# 1. find all Movies
+db.movies.find()
+
+# 2. Find Movies where language us Hindi
+db.movies.find({ language: "Hindi"})
+db.movies.find({ language: "Hindi"},{"title":1,"year":1,"language":1,_id:0})
+
+# 3 Find released movie after 2015
+# return only title, year and director's Name
+db.movies.find(
+    { year: {$gt: 2015}},
+    {"title":1,"year":1,"director.name":1,_id:0}
+)
+
+#  4 Find Movies which includes "Sci-fi" in genre
+db.movies.find({ genres: "Sci-fi" })
+
+# 5. Find movies with runtime less than or equals to 100 minutes, sorted by runtime ascending
+
+db.movies.find({runtimeMin: {$lte: 100}}).sort({runtimeMin : 1})
+
+# 1 for ascending, -1 for descending
+
+# 6. Return the top 3 highest boxOfficeUSD movies
+
+db.movies.find({},{title:1, boxOfficeUSD:1, _id:0})
+.sort({boxOfficeUSD:-1})
+.limit(3)
+
+# here retrieval of all data means {}
+# from all include only title, boxOfficeUSD value
+# then sort it in descending and then limit by 3 to get top 3
+
+# 7 Find all movies cast contains "Maya Sen"
+
+db.movies.find({ cast: "Maya Sen" },{title:1, cast:1, _id:0})
+
+# 8 get movies directed by "Asha Rao"
+
+db.movies.find(
+    { "director.name": "Asha Rao" },
+    {title:1, "director.name" :1, _id:0}
+)
+
+# 9 Count how many movies are from India
+
+db.movies.countDocuments({ country: "India"})
+
+# 10. Find movies that have rating source from "RottenTomatoes"
+# (present inside the rating Array)
+
+db.movies.find(
+    { "ratings.source":"RottenTomatoes"},
+    {title:1,"ratings.$":1,_id:0}
+)
+
+# only fetching score use property.$
+
+db.movies.find(
+    { "ratings.source":"RottenTomatoes"},
+    {title:1,"ratings.score.$":1,_id:0}
+)
+
+```
+
+## Intermediate Query Execution
+
+```bash
+# Average of runtimeMin of all Movies
+
+## Get all General Avg time
+db.movies.aggregate([
+  { $group: {_id : null, avgRuntime: {$avg : "$runtimeMin"} } }
+])
+
+## Get By Country Avg time and sort it in Descending
+
+db.movies.aggregate([
+  { $group: {_id : "$country", avgRuntime: {$avg : "$runtimeMin"} } }
+]).sort({ avgRuntime: -1})
+
+# use sort and limit as operator
+
+# suntimeMin is the key stored in dataset
+# avgRuntime is new value created by me to store avg calculated 
+db.movies.aggregate([
+  { $group: {_id : "$country", avgRuntime: {$avg : "$runtimeMin"} } },
+  { $sort: { avgRuntime: -1 } },
+  { $limit: 3 }
+])
+
+# Count number of Movies per language
+
+db.movies.aggregate([
+  { $group: {_id : "$language", totalMovies: {$sum : 1} } },
+  { $sort: { totalMovies: -1 } }
+])
+```
+
